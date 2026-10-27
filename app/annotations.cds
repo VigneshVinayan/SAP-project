@@ -655,6 +655,50 @@ annotate AssetManagerService.History with @(UI.LineItem: [
 ]);
 
 // ==================================================
+// MANAGER: EMPLOYEES APP (read-only, department-scoped)
+// ==================================================
+
+annotate AssetManagerService.Employees with @(
+    UI.HeaderInfo: {
+        TypeName       : '{i18n>Employee}',
+        TypeNamePlural : '{i18n>Employees}',
+        TypeImageUrl   : 'sap-icon://employee',
+        Title          : { Value: FULL_NAME },
+        Description    : { Value: EMPLOYEE_NO }
+    },
+    UI.SelectionFields: [ FULL_NAME, DEPARTMENT_NODE_KEY, LOCATION, STATUS ],
+    UI.PresentationVariant: { SortOrder: [{ Property: EMPLOYEE_NO }], Visualizations: ['@UI.LineItem'] },
+    UI.LineItem: [
+        { Value: EMPLOYEE_NO },
+        { Value: FULL_NAME },
+        { Value: DEPARTMENT.NAME, Label: '{i18n>Department}' },
+        { Value: LOCATION },
+        { Value: STATUS }
+    ],
+    UI.FieldGroup #General: { Data: [
+        { Value: EMPLOYEE_NO },
+        { Value: FULL_NAME },
+        { Value: DEPARTMENT.NAME, Label: '{i18n>Department}' },
+        { Value: LOCATION },
+        { Value: STATUS }
+    ]},
+    UI.Facets: [
+        { $Type: 'UI.ReferenceFacet', Label: '{i18n>General}', Target: '@UI.FieldGroup#General' }
+    ]
+) {
+    DEPARTMENT_NODE_KEY @title: '{i18n>Department}'
+                        @Common.Text: DEPARTMENT.NAME
+                        @Common.TextArrangement: #TextOnly
+                        @Common.ValueList: {
+        CollectionPath: 'Departments',
+        Parameters: [
+            { $Type: 'Common.ValueListParameterInOut', LocalDataProperty: DEPARTMENT_NODE_KEY, ValueListProperty: 'NODE_KEY' },
+            { $Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'NAME' }
+        ]
+    };
+};
+
+// ==================================================
 // USER: HARDWARE INVENTORY APP + MY ASSIGNMENTS / MY HISTORY (read-only, FR-002, FR-015)
 // ==================================================
 

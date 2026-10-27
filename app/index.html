@@ -73,14 +73,20 @@
                     "sap-icon://inspection", kpi.assignedAssets, "Assigned assets", null, me.isAdmin);
             }
 
+            // Manager (pure): Employees (read-only department view via mgremployees)
+            if (!me.isAdmin && me.isManager) {
+                addApp("Employee-view", "mgremployees", "Employees", "Department staff",
+                    "sap-icon://employee", kpi.employees, "Active employees");
+            }
+
             // Admin: lifecycle + master data
             if (me.isAdmin) {
+                addApp("Employee-manage", "employees", "Employees", "Master data",
+                    "sap-icon://employee", kpi.employees, "Active employees");
                 addApp("Asset-manage", "assets", "Manage Assets", "Assign, transfer, return, retire",
                     "sap-icon://laptop", kpi.availableAssets, "Available assets", "Good");
                 addApp("Department-manage", "departments", "Departments", "Create, edit and deactivate",
                     "sap-icon://org-chart", null, "Department master data");
-                addApp("Employee-manage", "employees", "Employees", "Master data",
-                    "sap-icon://employee", kpi.employees, "Active employees");
                 addApp("AssetCategory-manage", "categories", "Asset Categories", "Master data",
                     "sap-icon://product", kpi.categories, "Active categories");
                 addApp("Vendor-manage", "vendors", "Vendors", "Master data",

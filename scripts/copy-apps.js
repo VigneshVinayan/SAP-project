@@ -12,6 +12,7 @@ const items = [
   'assets',
   'overview',
   'employees',
+  'mgremployees',
   'departments',
   'categories',
   'vendors',

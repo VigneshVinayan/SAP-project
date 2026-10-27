@@ -75,6 +75,11 @@ export default cds.service.impl(async function () {
                 categories: await count(db.AssetCategories, { IS_ACTIVE: true }),
                 vendors: await count(db.Vendors, { IS_ACTIVE: true })
             });
+        } else if (req.user.is('Manager') && employee?.DEPARTMENT_NODE_KEY) {
+            // Managers see only the count of active employees in their own department
+            Object.assign(result, {
+                employees: await count(db.Employees, { STATUS: 'ACTIVE', DEPARTMENT_NODE_KEY: employee.DEPARTMENT_NODE_KEY })
+            });
         }
 
         return result;
